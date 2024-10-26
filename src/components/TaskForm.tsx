@@ -17,6 +17,7 @@ import { useAppDispatch } from "../redux/hooks"
 import { addTask } from "../redux/tasksSlice"
 import { Task } from "../types/taskTypes"
 import { Textarea } from "./ui/textarea"
+import { Card } from "./ui/card"
 
 // Validation schema
 const taskSchema = yup.object({
@@ -65,8 +66,8 @@ const TaskForm: React.FC = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <Card className="p-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
         <Controller
           name="title"
           control={control}
@@ -129,7 +130,7 @@ const TaskForm: React.FC = () => {
         <Input type="file" accept="image/*" onChange={handleImageChange} />
         <Button type="submit">Create Task</Button>
       </form>
-    </div>
+    </Card>
   )
 }
 

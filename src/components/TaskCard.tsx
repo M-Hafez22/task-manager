@@ -1,5 +1,4 @@
 import React from "react"
-import { Card } from "./ui/card"
 import { Task } from "../types/taskTypes"
 
 interface TaskCardProps {
@@ -7,7 +6,7 @@ interface TaskCardProps {
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => (
-  <Card className="p-4">
+  <div className="p-4">
     {task.image && (
       <img
         src={task.image}
@@ -19,7 +18,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => (
     <p>{task.description}</p>
     <p>Priority: {task.priority}</p>
     <p>Status: {task.state}</p>
-  </Card>
+  </div>
 )
 
 export default TaskCard

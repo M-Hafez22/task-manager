@@ -13,6 +13,7 @@ import {
   SelectValue,
   SelectItem,
 } from "./ui/select"
+import { Card } from "./ui/card"
 
 const TaskList: React.FC = () => {
   const tasks = useAppSelector(state => state.tasks.tasks)
@@ -107,7 +108,7 @@ const TaskList: React.FC = () => {
               setEditedTask={setEditedTask}
             />
           ) : (
-            <div key={task.id}>
+            <Card key={task.id} className="p-4">
               <TaskCard task={task} />
               <div className="flex space-x-2 mt-2">
                 <Button onClick={() => deleteCurrentTask(task.id)}>
@@ -117,7 +118,7 @@ const TaskList: React.FC = () => {
                   Edit Task
                 </Button>
               </div>
-            </div>
+            </Card>
           )
         )}
       </div>
