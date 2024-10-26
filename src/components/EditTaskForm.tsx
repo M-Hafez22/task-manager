@@ -1,3 +1,10 @@
+/**
+ * EditTaskForm is a React component that allows the user to edit the details of a task.
+ * It uses the react-hook-form library for form handling and validation, and the yup library for validation schema.
+ * The component receives the current task object and a function to set the edited task ID.
+ * It allows the user to update the task's title, description, priority, state, and optional image.
+ * When the form is submitted, the component dispatches the editTask action to update the task in the Redux store.
+ */
 import React, { useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import * as yup from "yup"

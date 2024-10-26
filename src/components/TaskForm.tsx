@@ -1,3 +1,17 @@
+/**
+ * The `TaskForm` component is a React functional component that renders a form for creating a new task. It uses the `react-hook-form` library for form management and validation, and the `yup` library for defining the validation schema.
+ *
+ * The form includes the following fields:
+ * - Title (required)
+ * - Description (required)
+ * - Priority (required, with options: Low, Medium, High)
+ * - State (required, with options: To Do, Doing, Done)
+ * - Image (optional)
+ *
+ * When the form is submitted, the `onSubmit` function is called, which dispatches an `addTask` action to the Redux store, passing in the form data and a generated `id` value. The form is then reset, and the `image` state is set to `null`.
+ *
+ * The component also includes a `handleImageChange` function that converts the selected image file to a base64-encoded string and updates the `image` state accordingly.
+ */
 import React, { useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import * as yup from "yup"

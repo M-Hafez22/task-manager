@@ -1,3 +1,9 @@
+/**
+ * Renders a task card component with the provided task data.
+ *
+ * @param task - The task object containing the data to display in the card.
+ * @returns A React component that displays the task information.
+ */
 import React from "react"
 import { Task } from "../types/taskTypes"
 

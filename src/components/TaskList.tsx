@@ -1,3 +1,8 @@
+/**
+ * The `TaskList` component is the main component that renders the task list view or the Kanban board view.
+ * It manages the state for filtering tasks by state and priority, as well as the state for toggling between the two views.
+ * The component also handles the actions for deleting and editing tasks.
+ */
 import React, { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import TaskCard from "./TaskCard"

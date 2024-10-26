@@ -1,3 +1,16 @@
+/**
+ * Provides a Redux slice for managing tasks in the application.
+ *
+ * The `tasksSlice` manages the state of tasks, including adding, editing, deleting, and updating the state of tasks.
+ *
+ * The slice exposes the following actions:
+ * - `addTask`: Adds a new task to the state.
+ * - `editTask`: Updates an existing task in the state.
+ * - `deleteTask`: Removes a task from the state.
+ * - `updateTaskState`: Updates the state of an existing task in the state.
+ *
+ * The slice also exports the reducer function as the default export.
+ */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Task } from "../types/taskTypes"
 

@@ -1,3 +1,8 @@
+/**
+ * Renders a Kanban board with columns for each task state (todo, doing, done).
+ * The board allows users to drag and drop tasks between columns to update their state.
+ * Each task can be edited or deleted from the board.
+ */
 import React, { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { useDrop, useDrag, DndProvider } from "react-dnd"
