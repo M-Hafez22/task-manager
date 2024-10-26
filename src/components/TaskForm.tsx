@@ -124,7 +124,9 @@ const TaskForm: React.FC = () => {
               </Select>
             )}
           />
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+        </div>
+        {/* <input type="file" accept="image/*" onChange={handleImageChange} /> */}
+        <Input type="file" accept="image/*" onChange={handleImageChange} />
         <Button type="submit">Create Task</Button>
       </form>
     </div>
