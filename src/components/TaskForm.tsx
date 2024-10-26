@@ -84,44 +84,45 @@ const TaskForm: React.FC = () => {
             />
           )}
         />
-        <Controller
-          name="priority"
-          control={control}
-          render={({ field }) => (
-            <Select {...field} label="Priority">
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Priority" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Priority</SelectLabel>
-                  <SelectItem value="Low">Low</SelectItem>
-                  <SelectItem value="Medium">Medium</SelectItem>
-                  <SelectItem value="High">High</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          )}
-        />
-        <Controller
-          name="state"
-          control={control}
-          render={({ field }) => (
-            <Select {...field} label="State">
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="State" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>State</SelectLabel>
-                  <SelectItem value="todo">To Do</SelectItem>
-                  <SelectItem value="doing">Doing</SelectItem>
-                  <SelectItem value="done">Done</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          )}
-        />
+        <div className="flex justify-between md:justify-around">
+          <Controller
+            name="priority"
+            control={control}
+            render={({ field }) => (
+              <Select {...field} label="Priority">
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Priority</SelectLabel>
+                    <SelectItem value="Low">Low</SelectItem>
+                    <SelectItem value="Medium">Medium</SelectItem>
+                    <SelectItem value="High">High</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <Select {...field} label="State">
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="State" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>State</SelectLabel>
+                    <SelectItem value="todo">To Do</SelectItem>
+                    <SelectItem value="doing">Doing</SelectItem>
+                    <SelectItem value="done">Done</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
         <input type="file" accept="image/*" onChange={handleImageChange} />
         <Button type="submit">Create Task</Button>
       </form>
