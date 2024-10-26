@@ -16,6 +16,8 @@ import {
 import { useAppDispatch } from "../redux/hooks"
 import { editTask } from "../redux/tasksSlice"
 import { Task } from "../types/taskTypes"
+import { Textarea } from "./ui/textarea"
+import { Card } from "./ui/card"
 
 // Validation schema
 const taskSchema = yup.object({
@@ -68,7 +70,7 @@ const EditTaskForm: React.FC<EditTaskFormProps> = ({ task, setEditedTask }) => {
   }
 
   return (
-    <div>
+    <Card className="p-4">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <Controller
           name="title"
@@ -78,50 +80,52 @@ const EditTaskForm: React.FC<EditTaskFormProps> = ({ task, setEditedTask }) => {
         <Controller
           name="description"
           control={control}
-          render={({ field }) => <Input {...field} label="Description" />}
+          render={({ field }) => <Textarea {...field} label="Description" />}
         />
-        <Controller
-          name="priority"
-          control={control}
-          render={({ field }) => (
-            <Select {...field} label="Priority">
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Priority" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Priority</SelectLabel>
-                  <SelectItem value="Low">Low</SelectItem>
-                  <SelectItem value="Medium">Medium</SelectItem>
-                  <SelectItem value="High">High</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          )}
-        />
-        <Controller
-          name="state"
-          control={control}
-          render={({ field }) => (
-            <Select {...field} label="State">
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="State" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>State</SelectLabel>
-                  <SelectItem value="todo">To Do</SelectItem>
-                  <SelectItem value="doing">Doing</SelectItem>
-                  <SelectItem value="done">Done</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          )}
-        />
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <div className="flex space-x-4 justify-between md:justify-around">
+          <Controller
+            name="priority"
+            control={control}
+            render={({ field }) => (
+              <Select {...field} label="Priority">
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Priority</SelectLabel>
+                    <SelectItem value="Low">Low</SelectItem>
+                    <SelectItem value="Medium">Medium</SelectItem>
+                    <SelectItem value="High">High</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <Select {...field} label="State">
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="State" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>State</SelectLabel>
+                    <SelectItem value="todo">To Do</SelectItem>
+                    <SelectItem value="doing">Doing</SelectItem>
+                    <SelectItem value="done">Done</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
+        </div>
+        <Input type="file" accept="image/*" onChange={handleImageChange} />
         <Button type="submit">Save Changes</Button>
       </form>
-    </div>
+    </Card>
   )
 }
 
