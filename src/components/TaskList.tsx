@@ -4,6 +4,7 @@ import TaskCard from "./TaskCard"
 import { Button } from "./ui/button"
 import { deleteTask } from "../redux/tasksSlice"
 import EditTaskForm from "./EditTaskForm"
+import KanbanBoard from "./KanbanBoard"
 import {
   Select,
   SelectTrigger,
@@ -19,7 +20,8 @@ const TaskList: React.FC = () => {
   const tasks = useAppSelector(state => state.tasks.tasks)
   const dispatch = useAppDispatch()
 
-  // Filter states for State and Priority
+  // State for toggling views
+  const [isKanbanView, setIsKanbanView] = useState(false)
   const [stateFilter, setStateFilter] = useState<
     "todo" | "doing" | "done" | "all" | null
   >(null)
@@ -51,80 +53,97 @@ const TaskList: React.FC = () => {
 
   return (
     <div>
-      {/* Filter Section */}
-
-      <div className="flex space-x-4 mb-4">
-        <div>
-          <Select
-            value={stateFilter || "all"}
-            onValueChange={value =>
-              setStateFilter(value as "todo" | "doing" | "done" | "all")
-            }
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by State" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>State</SelectLabel>
-                <SelectItem value="all">All States</SelectItem>
-                <SelectItem value="todo">To Do</SelectItem>
-                <SelectItem value="doing">Doing</SelectItem>
-                <SelectItem value="done">Done</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div>
-          <Select
-            value={priorityFilter || "all"}
-            onValueChange={value =>
-              setPriorityFilter(value as "Low" | "Medium" | "High" | "all")
-            }
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by Priority" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Priority</SelectLabel>
-                <SelectItem value="all">All Priorities</SelectItem>
-                <SelectItem value="Low">Low</SelectItem>
-                <SelectItem value="Medium">Medium</SelectItem>
-                <SelectItem value="High">High</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-      {/* Task List Section */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {filteredTasks.map(task =>
-          editedTask === task.id ? (
-            <EditTaskForm
-              key={task.id}
-              task={task}
-              setEditedTask={setEditedTask}
-            />
-          ) : (
-            <Card key={task.id} className="p-4">
-              <TaskCard task={task} />
-              <div className="flex space-x-2 mt-2">
-                <Button
-                  variant="destructive"
-                  onClick={() => deleteCurrentTask(task.id)}
+      <div className="flex justify-between mb-4">
+        <div className="flex space-x-4">
+          {/* Filter Section */}
+          {!isKanbanView && (
+            <>
+              <div>
+                <Select
+                  value={stateFilter || "all"}
+                  onValueChange={value =>
+                    setStateFilter(value as "todo" | "doing" | "done" | "all")
+                  }
                 >
-                  Delete Task
-                </Button>
-                <Button onClick={() => editCurrentTask(task.id)}>
-                  Edit Task
-                </Button>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Filter by State" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>State</SelectLabel>
+                      <SelectItem value="all">All States</SelectItem>
+                      <SelectItem value="todo">To Do</SelectItem>
+                      <SelectItem value="doing">Doing</SelectItem>
+                      <SelectItem value="done">Done</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
-            </Card>
-          )
-        )}
+
+              <div>
+                <Select
+                  value={priorityFilter || "all"}
+                  onValueChange={value =>
+                    setPriorityFilter(
+                      value as "Low" | "Medium" | "High" | "all"
+                    )
+                  }
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Filter by Priority" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Priority</SelectLabel>
+                      <SelectItem value="all">All Priorities</SelectItem>
+                      <SelectItem value="Low">Low</SelectItem>
+                      <SelectItem value="Medium">Medium</SelectItem>
+                      <SelectItem value="High">High</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Toggle Button */}
+        <Button onClick={() => setIsKanbanView(!isKanbanView)}>
+          {isKanbanView ? "Switch to List View" : "Switch to Kanban View"}
+        </Button>
       </div>
+
+      {/* Conditionally Render KanbanBoard or Task List */}
+      {isKanbanView ? (
+        <KanbanBoard />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {filteredTasks.map(task =>
+            editedTask === task.id ? (
+              <EditTaskForm
+                key={task.id}
+                task={task}
+                setEditedTask={setEditedTask}
+              />
+            ) : (
+              <Card key={task.id} className="p-4">
+                <TaskCard task={task} />
+                <div className="flex space-x-2 mt-2">
+                  <Button
+                    variant="destructive"
+                    onClick={() => deleteCurrentTask(task.id)}
+                  >
+                    Delete Task
+                  </Button>
+                  <Button onClick={() => editCurrentTask(task.id)}>
+                    Edit Task
+                  </Button>
+                </div>
+              </Card>
+            )
+          )}
+        </div>
+      )}
     </div>
   )
 }
