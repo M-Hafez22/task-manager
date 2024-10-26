@@ -46,3 +46,10 @@ npm run dev - Start development server
 npm run build - Build for production
 npm run lint - Run ESLint
 npm run preview - Preview production build
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square&logo=license)](/LICENSE)
+
+- Licensed under the **[MIT license](LICENSE)**
+- Copyright (c) 2022 Mohamed Hafez
