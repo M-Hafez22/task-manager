@@ -81,7 +81,10 @@ const EditTaskForm: React.FC<EditTaskFormProps> = ({
           name="priority"
           control={control}
           render={({ field }) => (
-            <Select {...field}>
+            <Select
+              value={field.value}
+              onValueChange={value => field.onChange(value)}
+            >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Priority" />
               </SelectTrigger>
@@ -100,7 +103,10 @@ const EditTaskForm: React.FC<EditTaskFormProps> = ({
           name="state"
           control={control}
           render={({ field }) => (
-            <Select {...field} label="State">
+            <Select
+              value={field.value}
+              onValueChange={value => field.onChange(value)}
+            >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="State" />
               </SelectTrigger>
