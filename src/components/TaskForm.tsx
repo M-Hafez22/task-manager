@@ -16,6 +16,7 @@ import {
 import { useAppDispatch } from "../redux/hooks"
 import { addTask } from "../redux/tasksSlice"
 import { Task } from "../types/taskTypes"
+import { Textarea } from "./ui/textarea"
 
 // Validation schema
 const taskSchema = yup.object({
@@ -77,7 +78,7 @@ const TaskForm: React.FC = () => {
           name="description"
           control={control}
           render={({ field }) => (
-            <Input
+            <Textarea
               {...field}
               label="Description"
               placeholder="Task Description"
