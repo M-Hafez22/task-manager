@@ -1,5 +1,4 @@
-// src/components/KanbanBoard.tsx
-import React from "react"
+import React, { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { useDrop, useDrag, DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
@@ -8,6 +7,7 @@ import { Card } from "./ui/card"
 import { updateTaskState, deleteTask } from "../redux/tasksSlice"
 import { Task } from "../types/taskTypes"
 import { Button } from "./ui/button"
+import EditTaskForm from "./EditTaskForm"
 
 // Types
 type KanbanColumnProps = {
@@ -47,6 +47,7 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({
 
 // Draggable task component with Delete and Edit buttons
 const DraggableTask: React.FC<{ task: Task }> = ({ task }) => {
+  const [editedTask, setEditedTask] = useState<string>("")
   const dispatch = useAppDispatch()
   const [{ isDragging }, dragRef] = useDrag({
     type: "TASK",
@@ -60,12 +61,13 @@ const DraggableTask: React.FC<{ task: Task }> = ({ task }) => {
     dispatch(deleteTask(task.id))
   }
 
-  const handleEdit = () => {
-    // Toggle edit state (assuming edit logic is handled elsewhere)
-    console.log(`Edit task ${task.id}`)
+  const handleEdit = (id: string) => {
+    setEditedTask(id)
   }
 
-  return (
+  return editedTask === task.id ? (
+    <EditTaskForm key={task.id} task={task} setEditedTask={setEditedTask} />
+  ) : (
     <Card
       ref={dragRef}
       className={`p-4 mb-4 ${isDragging ? "opacity-50" : "opacity-100"}`}
@@ -75,7 +77,7 @@ const DraggableTask: React.FC<{ task: Task }> = ({ task }) => {
         <Button variant="destructive" onClick={handleDelete}>
           Delete Task
         </Button>
-        <Button onClick={handleEdit}>Edit Task</Button>
+        <Button onClick={() => handleEdit(task.id)}>Edit Task</Button>
       </div>
     </Card>
   )
