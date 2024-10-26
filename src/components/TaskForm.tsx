@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -29,6 +29,7 @@ const taskSchema = yup.object({
     .string()
     .oneOf(["todo", "doing", "done"])
     .required("State is required"),
+  image: yup.mixed().notRequired(), // Optional image
 })
 
 const TaskForm: React.FC = () => {
@@ -42,10 +43,24 @@ const TaskForm: React.FC = () => {
     },
   })
   const dispatch = useAppDispatch()
+  const [image, setImage] = useState<string | null>(null)
+
+  // Convert image file to base64
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImage(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const onSubmit = (data: Task) => {
-    dispatch(addTask({ ...data, id: Date.now().toString() }))
+    dispatch(addTask({ ...data, id: Date.now().toString(), image }))
     reset()
+    setImage(null)
   }
 
   return (
@@ -99,7 +114,6 @@ const TaskForm: React.FC = () => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>State</SelectLabel>
-
                   <SelectItem value="todo">To Do</SelectItem>
                   <SelectItem value="doing">Doing</SelectItem>
                   <SelectItem value="done">Done</SelectItem>
@@ -108,6 +122,7 @@ const TaskForm: React.FC = () => {
             </Select>
           )}
         />
+        <input type="file" accept="image/*" onChange={handleImageChange} />
         <Button type="submit">Create Task</Button>
       </form>
     </div>
