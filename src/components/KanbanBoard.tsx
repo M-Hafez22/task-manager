@@ -33,7 +33,9 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({
   return (
     <div
       ref={dropRef}
-      className={`p-4 w-full border ${isOver ? "bg-gray-200" : "bg-white"}`}
+      className={`p-4 w-full rounded-lg shadow-md ${
+        isOver ? "bg-gray-400" : "bg-gray-200"
+      }`}
     >
       <h2 className="text-lg font-semibold mb-4">{state.toUpperCase()}</h2>
       {tasks.map(task => (
@@ -96,7 +98,7 @@ const KanbanBoard: React.FC = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="flex space-x-4">
+      <div className="flex space-y-4 space-x-0 flex-col sm:flex-row sm:space-y-0  sm:space-x-4 justify-center align-top">
         <KanbanColumn state="todo" tasks={todoTasks} onDrop={handleDrop} />
         <KanbanColumn state="doing" tasks={doingTasks} onDrop={handleDrop} />
         <KanbanColumn state="done" tasks={doneTasks} onDrop={handleDrop} />
