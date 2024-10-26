@@ -66,7 +66,7 @@ const TaskForm: React.FC = () => {
   }
 
   return (
-    <Card className="p-4">
+    <Card className="p-4 m-auto">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
         <Controller
           name="title"

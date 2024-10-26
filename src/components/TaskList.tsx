@@ -111,7 +111,10 @@ const TaskList: React.FC = () => {
             <Card key={task.id} className="p-4">
               <TaskCard task={task} />
               <div className="flex space-x-2 mt-2">
-                <Button onClick={() => deleteCurrentTask(task.id)}>
+                <Button
+                  variant="destructive"
+                  onClick={() => deleteCurrentTask(task.id)}
+                >
                   Delete Task
                 </Button>
                 <Button onClick={() => editCurrentTask(task.id)}>
