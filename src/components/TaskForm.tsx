@@ -91,7 +91,10 @@ const TaskForm: React.FC = () => {
             name="priority"
             control={control}
             render={({ field }) => (
-              <Select {...field} label="Priority">
+              <Select
+                value={field.value}
+                onValueChange={value => field.onChange(value)}
+              >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Priority" />
                 </SelectTrigger>
@@ -110,7 +113,10 @@ const TaskForm: React.FC = () => {
             name="state"
             control={control}
             render={({ field }) => (
-              <Select {...field} label="State">
+              <Select
+                value={field.value}
+                onValueChange={value => field.onChange(value)}
+              >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="State" />
                 </SelectTrigger>
