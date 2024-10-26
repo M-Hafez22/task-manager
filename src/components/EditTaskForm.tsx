@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -29,16 +29,15 @@ const taskSchema = yup.object({
     .string()
     .oneOf(["todo", "doing", "done"])
     .required("State is required"),
+  image: yup.mixed().notRequired(), // Optional image
 })
+
 interface EditTaskFormProps {
   task: Task
   setEditedTask: (id: string) => void
 }
 
-const EditTaskForm: React.FC<EditTaskFormProps> = ({
-  task,
-  setEditedTask: setEditedTask,
-}) => {
+const EditTaskForm: React.FC<EditTaskFormProps> = ({ task, setEditedTask }) => {
   const { control, handleSubmit } = useForm<Task>({
     resolver: yupResolver(taskSchema),
     defaultValues: {
@@ -49,42 +48,43 @@ const EditTaskForm: React.FC<EditTaskFormProps> = ({
     },
   })
   const dispatch = useAppDispatch()
+  const [image, setImage] = useState<string | null>(task.image || null)
 
-  const onSubmit = (data: Task) => {
-    dispatch(editTask({ id: task.id, updatedTask: { ...data } }))
-    if (typeof setEditedTask === "function") {
-      setEditedTask("")
+  // Convert image file to base64
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImage(reader.result as string)
+      }
+      reader.readAsDataURL(file)
     }
   }
+
+  const onSubmit = (data: Task) => {
+    dispatch(editTask({ id: task.id, updatedTask: { ...data, image } }))
+    setEditedTask("")
+  }
+
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <Controller
           name="title"
           control={control}
-          render={({ field }) => (
-            <Input {...field} label="Title" placeholder="Task Title" />
-          )}
+          render={({ field }) => <Input {...field} label="Title" />}
         />
         <Controller
           name="description"
           control={control}
-          render={({ field }) => (
-            <Input
-              {...field}
-              label="Description"
-              placeholder="Task Description"
-            />
-          )}
+          render={({ field }) => <Input {...field} label="Description" />}
         />
         <Controller
           name="priority"
           control={control}
           render={({ field }) => (
-            <Select
-              value={field.value}
-              onValueChange={value => field.onChange(value)}
-            >
+            <Select {...field} label="Priority">
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Priority" />
               </SelectTrigger>
@@ -103,17 +103,13 @@ const EditTaskForm: React.FC<EditTaskFormProps> = ({
           name="state"
           control={control}
           render={({ field }) => (
-            <Select
-              value={field.value}
-              onValueChange={value => field.onChange(value)}
-            >
+            <Select {...field} label="State">
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="State" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>State</SelectLabel>
-
                   <SelectItem value="todo">To Do</SelectItem>
                   <SelectItem value="doing">Doing</SelectItem>
                   <SelectItem value="done">Done</SelectItem>
@@ -122,6 +118,7 @@ const EditTaskForm: React.FC<EditTaskFormProps> = ({
             </Select>
           )}
         />
+        <input type="file" accept="image/*" onChange={handleImageChange} />
         <Button type="submit">Save Changes</Button>
       </form>
     </div>
